@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter App</title>
+  <style>
+      body{
+          background: black;
+          color: white;
+          text-align: center;
+          
+      }
+      button{
+          width: 100px;
+      }
+  </style>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io(); // Connects to the server
+        socket.on('counterUpdate', (count) => {
+            document.getElementById('counter').innerText = count;
+        });
+        socket.on('update', (visits)=>{
+            document.getElementById("visits").innerHTML = visits;
+        })
+
+        function incrementCounter() {
+            socket.emit('increment');
+        }
+    </script>
+</head>
+<body>
+    <h1>Counter: <span id="counter">0</span></h1>
+    <h3>People have opened this page: <span id="visits"></span> times. Stop it!</h3>
+    <button onclick="incrementCounter()">Increment</button>
+</body>
+</html>
